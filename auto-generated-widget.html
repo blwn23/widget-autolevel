@@ -1413,13 +1413,9 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                     if (that.currentStep == 0) {
                         // since we were on our first step, we do need to reset z to 0 pos
                         console.log("got done watchz callback on 1st step. zeroing out z.");
-                        that.status("Zeroing out Z on 1st probe as baseline Z.");
-                        that.absOffset = probe.z;
-                        //probe.z = 0;
                         //that.send("G28.3 Z0\n");
                         that.send("G10 L2 P1 Z" + that.absOffset +"\n"); // set the first probe value as offset for G54
                     }
-                    probe.z = probe.z - that.absOffset; 
                     
                     setTimeout(that.doNextStep.bind(that), 200);
                 });
@@ -1493,12 +1489,16 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                     if (this.currentStep == 0) {
                         // this is our 1st position, which isn't really a position, it's our auto-setting of 0
                         //this.status("Set our 1st probe position as new Z zero.");
-                        //probe.z = 0; //DEBUG
+                        //probe.z = 0;
                         //this.send("G28.3 Z0\n");
-                    } else {
-                        var pos = '{x:' + probe.x + ',y:' + probe.y + '}';
-                        that.status("Working on probe for " + pos + " Found lowest Z:" + probe.z);
-                    }                        
+                        this.status("Zeroing out Z on 1st probe as baseline Z.");
+                        that.absOffset = probe.z;
+                    }
+                    var pos = '{x:' + probe.x + ',y:' + probe.y + '}';
+                    //this.status("Working on probe for " + pos + " Found lowest Z:" + probe.z);
+                    probe.z = probe.z - that.absOffset;
+                    this.status("Working on probe for " + pos + " Found lowest Z:" + probe.z);
+                    
                     // update matrix to show results
                     this.removeRegionFrom3d();
                     if (!this.isMatrixShowing) 
