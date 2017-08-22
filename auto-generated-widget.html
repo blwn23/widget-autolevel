@@ -1415,13 +1415,11 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                         console.log("got done watchz callback on 1st step. zeroing out z.");
                         that.status("Zeroing out Z on 1st probe as baseline Z.");
                         that.absOffset = probe.z;
-                        probe.z = 0;
+                        //probe.z = 0;
                         //that.send("G28.3 Z0\n");
                         that.send("G10 L2 P1 Z" + that.absOffset +"\n"); // set the first probe value as offset for G54
                     }
-                    else{
-                        probe.z -= that.absOffset; 
-                    }
+                    probe.z = probe.z - that.absOffset; 
                     
                     setTimeout(that.doNextStep.bind(that), 200);
                 });
