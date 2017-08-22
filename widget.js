@@ -1321,8 +1321,9 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                         // since we were on our first step, we do need to reset z to 0 pos
                         console.log("got done watchz callback on 1st step. zeroing out z.");
                         that.status("Zeroing out Z on 1st probe as baseline Z.");
-                        probe.z = 0;
-                        that.send("G28.3 Z0\n");
+                        //probe.z = 0;
+                        //that.send("G28.3 Z0\n");
+                        that.send("G10 L2 P1 Z" + probe.z +"\n");
                     }
                     
                     setTimeout(that.doNextStep.bind(that), 200);
