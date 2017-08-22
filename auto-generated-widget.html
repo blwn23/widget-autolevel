@@ -1214,6 +1214,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
         probes: [], // object array of x/y vals of probe locations
         maxx: null,
         maxy: null,
+        absOffset : null, //offset to absolute coordinates, used to set the first probe position to zero and correct all subsequent positions
         genProbeGcode: function() {
             this.addRegionTo3d();
             this.status("Starting probe process");
@@ -1413,9 +1414,13 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                         // since we were on our first step, we do need to reset z to 0 pos
                         console.log("got done watchz callback on 1st step. zeroing out z.");
                         that.status("Zeroing out Z on 1st probe as baseline Z.");
-                        //probe.z = 0;
+                        that.absOffset = probe.z;
+                        probe.z = 0;
                         //that.send("G28.3 Z0\n");
-                        that.send("G10 L2 P1 Z" + probe.z +"\n");
+                        that.send("G10 L2 P1 Z" + that.absOffset +"\n"); // set the first probe value as offset for G54
+                    }
+                    else{
+                        probe.z -= that.absOffset; 
                     }
                     
                     setTimeout(that.doNextStep.bind(that), 200);
