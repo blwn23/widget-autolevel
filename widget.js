@@ -1398,7 +1398,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                     if (this.currentStep == 0) {
                         // this is our 1st position, which isn't really a position, it's our auto-setting of 0
                         //this.status("Set our 1st probe position as new Z zero.");
-                        probe.z = 0;
+                        //probe.z = 0; //DEBUG
                         //this.send("G28.3 Z0\n");
                     } else {
                         var pos = '{x:' + probe.x + ',y:' + probe.y + '}';
